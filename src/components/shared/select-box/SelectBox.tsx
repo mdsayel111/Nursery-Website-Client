@@ -8,16 +8,16 @@ import "./select-box.css"
 
 // select box prop type
 type TSelectBoxProps = {
-    id: string; data: Record<string, any>; setSearchObj: any;
+    id?: string; data: { title: string, values: string[] }; setSelectValue: any;
 }
 
-export default function SelectBox({ id, data, setSearchObj }: TSelectBoxProps) {
+export default function SelectBox({ id, data, setSelectValue }: TSelectBoxProps) {
     const [value, setValue] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
         const valueFromFeild = event.target.value
         setValue(valueFromFeild as string);
-        setSearchObj(valueFromFeild)
+        setSelectValue(valueFromFeild)
     };
 
     return (

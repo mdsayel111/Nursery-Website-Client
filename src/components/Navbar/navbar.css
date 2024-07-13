@@ -2,3 +2,10 @@
     overflow: visible !important;
     padding: 8px 0;
 }
+.navlink{
+ color: gray !important;
+}
+
+.active{
+    color: #3A9943;
+}

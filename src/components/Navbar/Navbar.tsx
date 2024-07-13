@@ -7,18 +7,16 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { RiMenu2Fill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
-import { primary, text } from '../../constants/color';
 import Logo from '../logo/Logo';
-import SearchIcon from '../searchbar/SearchIcon';
-import Searchbar from '../searchbar/Searchbar';
-import SearchedItems from '../searchbar/SearchedItems';
-import SelectBox from '../select-box/SelectBox';
+import SelectBox from '../shared/select-box/SelectBox';
 import "./navbar.css";
+import SearchIcon from '../shared/searchbar/SearchIcon';
+import Searchbar from '../shared/searchbar/Searchbar';
+import SearchedItems from '../shared/searchbar/SearchedItems';
 
 const pages = [
     { name: "Home", path: "/" },
@@ -127,9 +125,12 @@ function Navbar() {
                         >
                             {/* add nav links for smaller device by loop */}
                             {pages.map((page) => (
-                                <MenuItem key={page.name} onClick={() => handleCloseNavMenu(page.name)}>
-                                    <Typography textAlign="center" ><span className='text-gray-500'>{page.name}</span></Typography>
-                                </MenuItem>
+                                <NavLink key={page.name} to={page.path} className={({ isActive }) => isActive ? "active" : "navlink"
+                                }>
+                                    <MenuItem key={page.name} onClick={() => handleCloseNavMenu(page.name)}>
+                                        <Typography textAlign="center" ><span>{page.name}</span></Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                         </Menu>
                     </Box>
@@ -138,14 +139,16 @@ function Navbar() {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: "center", order: { md: 2 } }}>
                         {/* add navbar for larger device by loop */}
                         {pages.map((page) => (
-                            <NavLink key={page.name} to={page.path}>
-                                <Button
-                                    onClick={() => handleCloseNavMenu(page.name)}
-                                    sx={{ my: 2, color: `${page.name === active ? primary.main : text.gray}`, display: 'block' }}
-                                >
+                            <Button
+                                key={page.name}
+                                onClick={() => handleCloseNavMenu(page.name)}
+                                sx={{ my: 2, fontWeight: 700 }}
+                            >
+                                <NavLink className={({ isActive }) => isActive ? "active" : "navlink"
+                                } key={page.name} to={page.path}>
                                     {page.name}
-                                </Button>
-                            </NavLink>
+                                </NavLink>
+                            </Button>
                         ))}
                     </Box>
 
@@ -153,7 +156,7 @@ function Navbar() {
                     <Box sx={{ flexGrow: 0, order: 3, display: { xs: "hidden", position: "relative" } }}>
                         <div title="Open settings" className='flex justify-center items-center gap-2'>
                             {/* add search bar icon */}
-                            <div className='text-2xl cursor-pointer ml-20 p-4 bg-primary-90 rounded-full' onClick={handleSmallerDeviceSearchBar}>
+                            <div className='text-2xl cursor-pointer ml-20 p-4 bg-primary-90 hover:bg-secondary rounded-full text-primary hover:text-white' onClick={handleSmallerDeviceSearchBar}>
                                 <SearchIcon />
                             </div>
 
@@ -167,9 +170,9 @@ function Navbar() {
                             >
                                 {/* search filter, sort options */}
                                 {/* search bar */}
-                                <Searchbar display={{ xs: "block", lg: "hiddden" }} handleSearchDiv={handleOpenUserMenu} setSearchObj={setSearchStr} />
-                                <SelectBox id='filter' data={{ title: "Filter", values: ["fruit"] }} setSearchObj={setFilter} />
-                                <SelectBox id='sort' data={{ title: "Sort", values: ["fruit"] }} setSearchObj={setSort} />
+                                <Searchbar display={{ xs: "block", lg: "hiddden" }} handleSearchDiv={handleOpenUserMenu} setSearch={setSearchStr} />
+                                <SelectBox id='filter' data={{ title: "Filter", values: ["fruit"] }} setSelectValue={setFilter} />
+                                <SelectBox id='sort' data={{ title: "Sort", values: ["fruit"] }} setSelectValue={setSort} />
 
                                 {/* searched items display div */}
                                 <SearchedItems anchorElUser={anchorElUser} items={["products"]} onClick={handleCloseUserMenu} className={`${anchorElUser ? "block" : "hidden"} w-full`} />

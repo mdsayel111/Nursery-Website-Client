@@ -1,5 +1,5 @@
 export const primary = {
-    main: "#8EC136",
+    main: "#3A9943",
 }
 
 export const text = {

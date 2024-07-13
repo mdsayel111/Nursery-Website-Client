@@ -29,7 +29,7 @@ export default function App() {
                         <div className='space-y-4 z-10'>
                             <h1 className='text-white text-2xl lg:text-3xl'>BUY Online: Greenery At Your Fingertips</h1>
                             <p className='text-gray-300'>Browse, select and purchase your favorite plants from the comfort of your home.</p>
-                            <button className='bg-primary-70 py-2 px-4 rounded-md hover:bg-primary transition-all text-gray-500 font-bold'>Order Now</button>
+                            <button className=' py-2 px-4 rounded-md bg-primary transition-all text-white font-bold hover:bg-secondary'>Order Now</button>
                         </div>
                     </div>
                 </SwiperSlide>
@@ -39,7 +39,7 @@ export default function App() {
                         <div className='space-y-4 z-10'>
                             <h1 className='text-white text-2xl lg:text-3xl'>Our Nersery: Nerturing Nature's Beauty</h1>
                             <p className='text-gray-300'>drive into our vast section of thriving plants, catch cultivated with care and expertise.</p>
-                            <button className='bg-primary-70 py-2 px-4 rounded-md hover:bg-primary transition-all text-gray-500 font-bold'>Know More</button>
+                            <button className=' py-2 px-4 rounded-md bg-primary transition-all text-white font-bold hover:bg-secondary'>Know More</button>
                         </div>
                     </div>
                 </SwiperSlide>
@@ -49,7 +49,7 @@ export default function App() {
                         <div className='space-y-4 z-10'>
                             <h1 className='text-white text-2xl lg:text-3xl'>Landscapting Servic: Crafting Green Mesterpices</h1>
                             <p className='text-gray-300'>Transform your outdoor areas with our bespok landscapting service.</p>
-                            <button className='bg-primary-70 py-2 px-4 rounded-md hover:bg-primary transition-all text-gray-500 font-bold'>Know More</button>
+                            <button className=' py-2 px-4 rounded-md bg-primary transition-all text-white font-bold hover:bg-secondary'>Know More</button>
                         </div>
                     </div>
                 </SwiperSlide>

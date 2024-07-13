@@ -1,8 +1,8 @@
 import { alpha, IconButton, styled } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
+import { ChangeEventHandler, FocusEventHandler, MouseEventHandler, useState } from 'react';
+import { primary } from '../../../constants/color';
 import SearchIcon from './SearchIcon';
-import { ChangeEventHandler, FocusEventHandler, FormEventHandler, MouseEventHandler, useState } from 'react';
-import { primary } from '../../constants/color';
 
 // serarch styled component
 const Search = styled('div')(({ theme }) => ({
@@ -53,20 +53,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface TSearchbarProps {
     handleSearchDiv?: FocusEventHandler<HTMLDivElement>;
     onClick?: MouseEventHandler<HTMLButtonElement>;
-    display: Record<string, string>;
-    setSearchObj: any;
+    display?: Record<string, string>;
+    setSearch: any;
 }
 
-const Searchbar = ({ handleSearchDiv, onClick, display, setSearchObj }: TSearchbarProps) => {
+const Searchbar = ({ handleSearchDiv, onClick, display, setSearch }: TSearchbarProps) => {
     const [value, setValue] = useState("")
 
     const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const valueFromField = e.target.value;
         setValue(valueFromField);
-        setSearchObj(valueFromField); // Update the parent state if needed
+        setSearch(valueFromField); // Update the parent state if needed
     };
     return (
-        <IconButton className='border-white lg:border-primary' sx={{ p: 0, borderRadius: "5px", border: `2px solid`, borderColor: { xs: "white", md: primary.main }, display: display }} onClick={onClick}>
+        <IconButton sx={{ p: 0, borderRadius: "5px", border: `2px solid`, borderColor: primary.main, display: display }} onClick={onClick}>
             {/* add medium device search bar */}
             <div>
                 <Search onFocus={handleSearchDiv} onBlur={handleSearchDiv} onChange={handleOnChange}>
