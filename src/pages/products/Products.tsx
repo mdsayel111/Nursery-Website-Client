@@ -60,8 +60,8 @@ const Products = () => {
                     <Searchbar setSearch={handleSearch} />
                 </div>
                 <div className='flex gap-4'>
-                    <SelectBox data={{ title: "Filter", values: category }} setSelectValue={handleFilter} />
-                    <SelectBox data={{ title: "Sort", values: category }} setSelectValue={handleFilter} />
+                    <SelectBox title='Filter' data={category} setSelectValue={handleFilter} />
+                    <SelectBox title='Sort' data={category} setSelectValue={handleFilter} />
                 </div>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>

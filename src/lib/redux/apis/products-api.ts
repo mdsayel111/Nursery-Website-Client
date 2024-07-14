@@ -1,5 +1,5 @@
-import { TCart } from "../../../types";
-import { baseApi } from "./base-api";
+import { TCart, TProduct } from "../../../types";
+import { baseApi } from "./base-api"
 
 // create products api
 const productApi = baseApi.injectEndpoints({
@@ -11,7 +11,7 @@ const productApi = baseApi.injectEndpoints({
         getSingleProduct: builder.query({ query: (id: string) => ({ url: `/products/${id}`, method: "GET" }) }),
 
         // add product api
-        addProduct: builder.mutation({ query: (payload: TCart) => ({ url: "/product", body: payload, method: "POST" }) }),
+        addProduct: builder.mutation({ query: (payload: any) => ({ url: "/products", body: payload, method: "POST" }) }),
 
         // update product api
         updateProduct: builder.mutation({ query: (payload: Partial<TCart>) => ({ url: `/products/${payload._id}`, method: "PATCH", body: payload }) }),

@@ -17,11 +17,13 @@ import "./navbar.css";
 import SearchIcon from '../shared/searchbar/SearchIcon';
 import Searchbar from '../shared/searchbar/Searchbar';
 import SearchedItems from '../shared/searchbar/SearchedItems';
+import { category } from '../../constants/filter-arr';
 
 const pages = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
     { name: "Cart", path: "/cart" },
+    { name: "Manage Products", path: "/manage-products" },
 ] as const;
 
 // union type of pages array
@@ -171,8 +173,8 @@ function Navbar() {
                                 {/* search filter, sort options */}
                                 {/* search bar */}
                                 <Searchbar display={{ xs: "block", lg: "hiddden" }} handleSearchDiv={handleOpenUserMenu} setSearch={setSearchStr} />
-                                <SelectBox id='filter' data={{ title: "Filter", values: ["fruit"] }} setSelectValue={setFilter} />
-                                <SelectBox id='sort' data={{ title: "Sort", values: ["fruit"] }} setSelectValue={setSort} />
+                                {/* <SelectBox id='filter' title='Filter' data={category} setSelectValue={setFilter} />
+                                <SelectBox id='sort' data={{ title: "Sort", values: ["fruit"] }} setSelectValue={setSort} /> */}
 
                                 {/* searched items display div */}
                                 <SearchedItems anchorElUser={anchorElUser} items={["products"]} onClick={handleCloseUserMenu} className={`${anchorElUser ? "block" : "hidden"} w-full`} />

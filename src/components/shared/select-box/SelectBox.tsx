@@ -6,18 +6,27 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import * as React from 'react';
 import "./select-box.css"
 
-// select box prop type
-type TSelectBoxProps = {
-    id?: string; data: { title: string, values: string[] }; setSelectValue: any;
+// value type for select elements
+type TValue = {
+    name: string
+    value: string
 }
 
-export default function SelectBox({ id, data, setSelectValue }: TSelectBoxProps) {
+// select box prop type
+type TSelectBoxProps = {
+    id?: string;
+    data: TValue[];
+    title: string;
+    setSelectValue?: any;
+}
+
+export default function SelectBox({ id, data, title, setSelectValue }: TSelectBoxProps) {
     const [value, setValue] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
         const valueFromFeild = event.target.value
         setValue(valueFromFeild as string);
-        setSelectValue(valueFromFeild)
+        setSelectValue && setSelectValue(valueFromFeild)
     };
 
     return (
@@ -48,7 +57,7 @@ export default function SelectBox({ id, data, setSelectValue }: TSelectBoxProps)
                 }}
             >
                 <InputLabel
-                    id={id}>{data.title}</InputLabel>
+                    id={id}>{title}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -58,7 +67,7 @@ export default function SelectBox({ id, data, setSelectValue }: TSelectBoxProps)
                     sx={{ padding: "2px" }}
                 >
                     {
-                        data.values.map((value: string) => <MenuItem key={value} value={value}>{value.toUpperCase()}</MenuItem>)
+                        data.map((value) => <MenuItem key={value.name} value={value.value}>{value.name.toUpperCase()}</MenuItem>)
                     }
                 </Select>
             </FormControl>
