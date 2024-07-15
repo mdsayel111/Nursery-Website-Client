@@ -1,8 +1,8 @@
-import { MenuItem, Typography } from '@mui/material';
-import React, { MouseEventHandler } from 'react';
+import { MenuItem } from '@mui/material';
+import { MouseEventHandler } from 'react';
+import { NavLink } from 'react-router-dom';
 import { TProduct } from '../../../types';
 import ProductView from '../product-view/ProductView';
-import { NavLink } from 'react-router-dom';
 
 // create search items type
 type TSearchItems = { onClick: MouseEventHandler, anchorElUser: boolean, className?: string; data: TProduct[]; handleClose: Function }

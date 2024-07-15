@@ -29,7 +29,7 @@ export default function BasicTable({ data }: { data: TProduct[] }) {
           </TableHead>
           <TableBody>
             {data.map((eachData) => (
-              <BasicTableRow data={eachData} />
+              <BasicTableRow key={eachData._id} data={eachData} />
             ))}
           </TableBody>
         </Table>

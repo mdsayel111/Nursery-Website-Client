@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderForm from "../../components/order/order-form/OrderForm";
 import Button from "../../components/shared/Button/Button";
@@ -37,24 +37,9 @@ const Cart = () => {
     // modal state
     const [openForm, setOpenForm] = useState(false);
 
-    // handle before reload
-    const handleBeforeUnload = (event: any) => {
-        event.preventDefault();
-        event.returnValue = true;
-    };
-
-    // handle page reload
-    useEffect(() => {
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
-
     // if isLoading is true 
     if (isLoading) {
-        return <div>
+        return <div className="md:w-96 w-30 h-96 mx-auto">
             <Loader />
         </div>
     }

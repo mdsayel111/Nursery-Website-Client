@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import QuantityManage from '../quantity-mange/QuantityManage';
+import { useState } from 'react';
 import { TProduct } from '../../../types';
+import QuantityManage from '../quantity-mange/QuantityManage';
 
 // create product view type
 type TProductView = {

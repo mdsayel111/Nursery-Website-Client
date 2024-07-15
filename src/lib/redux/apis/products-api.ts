@@ -1,4 +1,4 @@
-import { TOrder, TProduct } from "../../../types";
+import { TProduct } from "../../../types";
 import { baseApi } from "./base-api";
 
 // create products api
@@ -28,7 +28,7 @@ const productApi = baseApi.injectEndpoints({
         deleteProduct: builder.mutation({ query: (id: string) => ({ url: `/products/${id}`, method: "DELETE" }), invalidatesTags: ["products"] }),
 
         // lestest products api
-        latestProducts: builder.query({ query: () => ({ url: "/products?sort=createAt&limit=8", method: "GET" }) })
+        latestProducts: builder.query({ query: () => ({ url: "/products?sort=createAt&limit=8", method: "GET" }), providesTags: ["products"] })
     })
 })
 

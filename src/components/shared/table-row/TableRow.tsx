@@ -10,6 +10,7 @@ import { useDeleteProductMutation, useUpdateProductMutation } from '../../../lib
 import { MdDelete, MdEditSquare } from 'react-icons/md';
 import { removeProduct } from '../../../lib/redux/slices/products-slice';
 import { useAppDispatch } from '../../../lib/redux/hooks';
+import { handleDebounce } from '../../../utils/handle-debounce';
 
 const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
     const [updateProduct, res] = useUpdateProductMutation()
@@ -43,7 +44,7 @@ const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
     }
 
     // form event handler
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = handleDebounce(async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
@@ -107,11 +108,14 @@ const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
             // close modal
             handleClose()
         } catch (err) {
-            if (err instanceof AxiosError) {
+            if (err instanceof AxiosError && err.response?.data?.error?.code === 310) {
                 toast.error("Img file is not valid! Please input valid file!")
+            } else {
+                toast.error("something went wrong!")
             }
         }
-    };
+    });
+    
     return (
         <TableRow
             key={singleData._id}

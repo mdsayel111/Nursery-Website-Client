@@ -7,6 +7,7 @@ import ProductForm from "../../components/shared/product-form/ProdctForm";
 import { uploadMultipleImg, uploadSingleImg } from "../../lib/imgBB";
 import { useUpdateProductMutation } from "../../lib/redux/apis/products-api";
 import { TProduct } from "../../types";
+import { handleDebounce } from "../../utils/handle-debounce";
 
 
 const UpdateProduct = () => {
@@ -21,7 +22,7 @@ const UpdateProduct = () => {
     const handleClose = () => setOpen(false);
 
     // form event handler
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = handleDebounce(async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
@@ -82,11 +83,15 @@ const UpdateProduct = () => {
                 toast.error((res.error as any).data.message)
             }
         } catch (err) {
-            if (err instanceof AxiosError) {
+            if (err instanceof AxiosError && err.response?.data?.error?.code === 310) {
                 toast.error("Img file is not valid! Please input valid file!")
+            } else {
+                toast.error("something went wrong!")
             }
         }
-    };
+    })
+
+
     return (
         <div>
             <BasicModal handleClose={handleClose} handleOpen={handleOpen} open={open}>

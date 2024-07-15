@@ -10,9 +10,11 @@ type TTextInput = {
     id: string;
     label: string;
     type?: string
+
+    maxLength?: number
 }
 
-const TextInput = ({ name, required, id, fullWidth, label, type }: TTextInput) => {
+const TextInput = ({ name, required, maxLength, id, fullWidth, label, type }: TTextInput) => {
     return (
         <TextField
             name={name}
@@ -21,6 +23,7 @@ const TextInput = ({ name, required, id, fullWidth, label, type }: TTextInput) =
             id={id}
             label={label}
             type={type}
+            inputProps={{ maxLength: maxLength && maxLength }}
             sx={{
                 '& .MuiInputBase-input': {
                     main: primary.main,

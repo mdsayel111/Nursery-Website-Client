@@ -48,9 +48,10 @@ const Payment = () => {
                 toast.error((res.error as any).data.message)
             }
         } catch (err) {
-            if (err instanceof AxiosError) {
-                console.log(err)
+            if (err instanceof AxiosError && err.response?.data?.error?.code === 310) {
                 toast.error("Img file is not valid! Please input valid file!")
+            } else {
+                toast.error("something went wrong!")
             }
         }
     })

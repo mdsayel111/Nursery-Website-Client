@@ -29,13 +29,10 @@ const pages = [
     { name: "Manage Products", path: "/manage-products" },
 ] as const;
 
-// union type of pages array
-type TPages = typeof pages[number]['name'];
-
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<boolean>(false);
-    const [active, setActive] = React.useState<TPages>("Home")
+    // const [active, setActive] = React.useState<TPages>("Home")
 
     // filter state
     const [searchObj, setSearchObj] = React.useState<Record<string, string>>({})
@@ -44,8 +41,7 @@ function Navbar() {
     const queryStr = queryString.stringify(searchObj)
 
     // get product by searchObj
-    const { data, isLoading } = useGetSearchProductsQuery(queryStr)
-    console.log(data)
+    const { data } = useGetSearchProductsQuery(queryStr)
 
     // useRef for smaller device searchbar
     const [isSearchBarOpen, setIsSearchBarOpen] = React.useState(false)
@@ -69,8 +65,7 @@ function Navbar() {
         setAnchorElUser(!anchorElUser);
     };
 
-    const handleCloseNavMenu = (page: TPages) => {
-        setActive(page)
+    const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
@@ -139,7 +134,7 @@ function Navbar() {
                             {pages.map((page) => (
                                 <NavLink key={page.name} to={page.path} className={({ isActive }) => isActive ? "active" : "navlink"
                                 }>
-                                    <MenuItem key={page.name} onClick={() => handleCloseNavMenu(page.name)}>
+                                    <MenuItem key={page.name} onClick={() => handleCloseNavMenu()}>
                                         <Typography textAlign="center" ><span>{page.name}</span></Typography>
                                     </MenuItem>
                                 </NavLink>
@@ -153,7 +148,7 @@ function Navbar() {
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
-                                onClick={() => handleCloseNavMenu(page.name)}
+                                onClick={() => handleCloseNavMenu()}
                                 sx={{ my: 2, fontWeight: 700 }}
                             >
                                 <NavLink className={({ isActive }) => isActive ? "active" : "navlink"
@@ -182,7 +177,7 @@ function Navbar() {
                             >
                                 <div>
                                     <div className='w-fit ml-auto mb-8'>
-                                        <button onClick={handleSmallerDeviceSearchBar} className='bg-red-600 text-white  p-2  rounded-full'><MdCancel /></button>
+                                        <button onClick={handleSmallerDeviceSearchBar} className='bg-red-600 text-white  p-2  rounded-full mr-4'><MdCancel /></button>
                                     </div>
                                     <div className='flex flex-col md:flex-row gap-2 w-[100vw] justify-between'>
 

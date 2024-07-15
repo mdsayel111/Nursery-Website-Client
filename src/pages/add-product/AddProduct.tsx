@@ -3,6 +3,7 @@ import ProductForm from "../../components/shared/product-form/ProdctForm";
 import { uploadMultipleImg, uploadSingleImg } from "../../lib/imgBB";
 import { useAddProductMutation } from "../../lib/redux/apis/products-api";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
 
 
 const AddProduct = () => {
@@ -30,7 +31,7 @@ const AddProduct = () => {
                 price: Number(data.get('price')),
                 rating: Number(data.get('rating')),
             }
-
+            
             // create product
             const res = await addproduct(product);
 
@@ -41,12 +42,28 @@ const AddProduct = () => {
                 toast.error((res.error as any).data.message)
             }
         } catch (err) {
-            if (err instanceof AxiosError) {
-                console.log(err)
+            if (err instanceof AxiosError && err.response?.data?.error?.code === 310) {
                 toast.error("Img file is not valid! Please input valid file!")
+            } else {
+                toast.error("something went wrong!")
             }
         }
     };
+
+    // handle before reload
+    const handleBeforeUnload = (event: any) => {
+        event.preventDefault();
+        event.returnValue = true;
+    };
+
+    // handle page reload
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <div className="mt-16">

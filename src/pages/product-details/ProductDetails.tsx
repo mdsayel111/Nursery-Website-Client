@@ -9,12 +9,20 @@ import Title from "../../components/shared/title/Title";
 import { useGetSingleProductQuery } from "../../lib/redux/apis/products-api";
 import { TProduct } from "../../types";
 import "./product-details.css";
+import Button from "../../components/shared/Button/Button";
+import { useAppDispatch, useAppSelector } from "../../lib/redux/hooks";
+import { addToCart, selectCart } from "../../lib/redux/slices/cart-slice";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
     const { id } = useParams();
 
     // get data from server
     const { data, isLoading } = useGetSingleProductQuery(id as string);
+
+    // get carts
+    const carts = useAppSelector(selectCart)
+    const dispatch = useAppDispatch()
 
     // State to manage image URLs
     const [currentImg, setCurrentImg] = useState<string | undefined>(undefined);
@@ -41,16 +49,34 @@ const ProductDetails = () => {
     useEffect(() => {
         if (data?.data) {
             const { imgUrl, imgList } = data.data;
-            const urls = [imgUrl, ...imgList];
-            setNewImgUrls(urls);
-            setCurrentImg(urls[0]);
-            console.log(urls)
+            setNewImgUrls(imgList);
+            setCurrentImg(imgUrl);
         }
     }, [data]);
 
+
+
+
     // if isLoading === true return loader
     if (isLoading) {
-        return <div><Loader /></div>;
+        return <div className="md:w-96 w-30 h-96 mx-auto"><Loader /></div>;
+    }
+
+
+    // handle add to cart
+    const handleAddToCart = (e: MouseEvent) => {
+        e.preventDefault()
+        // get single cart from carts
+        const singleCart = carts.find(item => item._id === data.data?._id)
+        // if cart quantity + 1 > product quantity
+        if (singleCart && singleCart.quantity + 1 > quantity) {
+
+            return toast.error(`You can't add to cart more then ${quantity}!`)
+
+        }
+        // add to cart 
+        dispatch(addToCart({ _id: data?.data?._id, quantity: orderQuantity, price }))
+        return toast.success("Product added to cart!")
     }
 
     const { title, category, description, price, quantity, rating } = data?.data as TProduct;
@@ -64,8 +90,14 @@ const ProductDetails = () => {
                         <img src={currentImg} alt="" className="bg-red-600 w-full h-80 rounded-lg" ></img>
                     </div>
                     <div className="flex w-fit mx-auto gap-4">
-                        {newImgUrls.filter(img => img !== currentImg).map(img => (
-                            <img key={img} src={img} className="rounded-lg bg-green-400 w-16 h-16" onClick={() => setCurrentImg(img)} />
+                        {newImgUrls.map((img, index) => (
+                            <img key={index} src={img} className="rounded-lg bg-green-400 w-16 h-16 cursor-pointer"
+                                onClick={() => {
+                                    setCurrentImg(img);
+                                    setNewImgUrls(
+                                        [...newImgUrls.filter(singleImg => img !== singleImg), currentImg as string]
+                                    )
+                                }} />
                         ))}
                     </div>
                 </div>
@@ -86,7 +118,9 @@ const ProductDetails = () => {
                             <div className="flex items-center gap-4">
                                 <QuantityManage handleDecremantOrderQuantity={handleDecremantOrderQuantity} handleIncremantOrderQuantity={handleIncremantOrderQuantity} orderQuantity={orderQuantity} productQuantity={quantity} />
                             </div>
+
                         </div>
+                        <Button className="mt-8" onClick={handleAddToCart}>Add To Cart</Button>
                     </div>
                     <hr className="border-t-[1px] border-gray-400" />
                     <div className="flex items-center justify-between">

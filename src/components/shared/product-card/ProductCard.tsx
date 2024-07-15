@@ -35,19 +35,20 @@ export default function ProductCard({ title, description, imgUrl, price, rating,
   }
   return (
     <NavLink to={`/products/${_id}`}>
-      <Card sx={{ maxWidth: 345 }} className='cursor-pointer'>
+      <Card sx={{ maxWidth: 350 }} className='cursor-pointer rounded-lg !pt-0'>
         <div>
           <CardMedia
             sx={{ minHeight: 200, maxHeight: 200 }}
             image={imgUrl}
             title="green iguana"
+            className='rounded-t-lg'
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {description.length > 50 ? description.slice(0, 51) + '... see more' : description}
+              {description.length > 20 ? description.slice(0, 20) + '... see more' : description}
             </Typography>
           </CardContent>
           <div className='flex justify-between items-center p-4'>
@@ -55,7 +56,7 @@ export default function ProductCard({ title, description, imgUrl, price, rating,
             <span>In Stock: {quantity}</span>
           </div>
           <div className='w-fit mx-auto'>
-            <HalfRating value={rating} />
+            <HalfRating value={rating}  />
           </div>
         </div>
         <CardActions>

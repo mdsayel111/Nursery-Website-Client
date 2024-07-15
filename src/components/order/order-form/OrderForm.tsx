@@ -20,7 +20,20 @@ type TForm = {
 
 
 export default function OrderForm({ title, isLoading, handleSubmit }: TForm) {
-    console.log(isLoading)
+    // handle before reload
+    const handleBeforeUnload = (event: any) => {
+        event.preventDefault();
+        event.returnValue = true;
+    };
+
+    // handle page reload
+    React.useEffect(() => {
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />

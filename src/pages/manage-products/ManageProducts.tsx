@@ -24,7 +24,7 @@ const ManageProducts = () => {
 
     // if isLoading === true
     if (isLoading) {
-        return <div className="w-80 h-80 mx-auto">
+        return <div className="md:w-96 w-30 h-96 mx-auto">
             <Loader />
         </div>
     }

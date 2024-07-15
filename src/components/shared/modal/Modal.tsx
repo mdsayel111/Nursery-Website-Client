@@ -11,7 +11,7 @@ type TModal = {
     id?: string
 }
 
-export default function BasicModal({ open, handleOpen, handleClose, children }: TModal) {
+export default function BasicModal({ open, handleClose, children }: TModal) {
 
 
     return (

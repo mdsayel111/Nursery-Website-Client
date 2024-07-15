@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import queryString from 'query-string';
 import Loader from '../../components/shared/loader/Loader';
@@ -25,28 +25,30 @@ const Products = () => {
         page: 0
     })
 
+    console.log(filterObj)
+
     const queryStr = queryString.stringify(filterObj)
 
     // fetching data
     const { data, isLoading } = useGetSearchProductsQuery(queryStr)
 
-    // create children variable for dainamically render loader or products
-    let children: ReactNode;
+    useEffect(() => {
+        if (data) {
+            dispatch(setProduct(data.data.data))
+        }
+    }, [data])
 
     // if isLoading === true, then return loader
     if (isLoading) {
-        children = <div className='w-fit mx-auto'>
+        return <div className='md:w-96 w-30 h-96 mx-auto'>
             <Loader />
         </div>
-    }
-    // else children = products
-    else {
-        children = products.map((data: TProduct) => <ProductCard {...data} />)
     }
 
     // handle search
     const handleSearch = (search: string) => {
-        setFilterObj(prev => ({ ...prev, search }))
+        setFilterObj(prev => ({ ...prev, search, page: 0 }))
+
     }
 
     // handle filter
@@ -58,12 +60,6 @@ const Products = () => {
     const handleSort = (sort: string) => {
         setFilterObj(prev => ({ ...prev, sort }))
     }
-
-    useEffect(() => {
-        if (data) {
-            dispatch(setProduct(data.data.data))
-        }
-    }, [data])
 
     return (
         <div className='mt-16'>
@@ -78,10 +74,10 @@ const Products = () => {
                 </div>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-                {children}
+                {products.map((data: TProduct) => <ProductCard key={data._id} {...data} />)}
             </div>
             <div className='mt-16 w-fit mx-auto'>
-                <BasicPagination totalData={data?.data?.totalDocument} />
+                <BasicPagination setPage={setFilterObj} totalData={data?.data?.totalDocument} />
             </div>
         </div>
     );

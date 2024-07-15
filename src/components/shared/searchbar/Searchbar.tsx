@@ -1,6 +1,6 @@
 import { alpha, IconButton, styled } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
-import { ChangeEventHandler, FocusEventHandler, MouseEventHandler, useState } from 'react';
+import { ChangeEventHandler, FocusEventHandler, MouseEventHandler } from 'react';
 import { primary } from '../../../constants/color';
 import SearchIcon from './SearchIcon';
 
@@ -58,11 +58,9 @@ interface TSearchbarProps {
 }
 
 const Searchbar = ({ handleSearchDiv, onClick, display, setSearch }: TSearchbarProps) => {
-    const [value, setValue] = useState("")
 
     const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const valueFromField = e.target.value;
-        setValue(valueFromField);
         setSearch(valueFromField); // Update the parent state if needed
     };
     return (

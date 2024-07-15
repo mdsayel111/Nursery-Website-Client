@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit/react'
-import { TCart, TOrder } from '../../../types'
+import { TCart } from '../../../types'
 import { RootState } from '../store'
 
 // Define a type for the slice state

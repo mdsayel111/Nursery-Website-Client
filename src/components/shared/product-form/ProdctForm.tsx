@@ -25,10 +25,26 @@ type TForm = {
 
 
 export default function ProductForm({ title, type, isLoading, handleSubmit }: TForm) {
-    const [value, setValue] = React.useState<number | null>(2);
+    const [value, setValue] = React.useState<number | null>(0);
 
     // create isOptional variable for optional feild
     const isOptional = type && type === "update" ? false : true
+
+    // handle before reload
+    const handleBeforeUnload = (event: any) => {
+        event.preventDefault();
+        event.returnValue = true;
+    };
+
+    // handle page reload
+    React.useEffect(() => {
+        console.log("upda")
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
 
     return (
@@ -51,7 +67,7 @@ export default function ProductForm({ title, type, isLoading, handleSubmit }: TF
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <TextInput name='title' type='text' required={isOptional} fullWidth label='Title' id='title' />
+                            <TextInput maxLength={15} name='title' type='text' required={isOptional} fullWidth label='Title' id='title' />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <SelectBox data={category} title='Category' name='category' />
@@ -75,6 +91,7 @@ export default function ProductForm({ title, type, isLoading, handleSubmit }: TF
                                 name="rating"
                                 value={value}
                                 onChange={(event, newValue) => {
+                                    event
                                     setValue(newValue);
                                 }}
                             />
