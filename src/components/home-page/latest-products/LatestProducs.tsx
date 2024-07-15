@@ -1,6 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useLatestProductsQuery } from "../../../lib/redux/apis/products-api";
-import { TCart } from "../../../types";
+import { useAppDispatch, useAppSelector } from "../../../lib/redux/hooks";
+import { selectLatestProducts, setLatestProduct } from "../../../lib/redux/slices/latest-product";
+import { TOrder } from "../../../types";
 import Loader from "../../shared/loader/Loader";
 import ProductCard from "../../shared/product-card/ProductCard";
 import Title from "../../shared/title/Title";
@@ -8,6 +10,8 @@ import Title from "../../shared/title/Title";
 
 const LatestProducts = () => {
     const { isLoading, data } = useLatestProductsQuery(undefined)
+    const disPatch = useAppDispatch()
+    const latestProducts = useAppSelector(selectLatestProducts)
     // create children for dinamicaly render loader or card
     let children: ReactNode;
 
@@ -19,8 +23,14 @@ const LatestProducts = () => {
     }
     // if loading false
     else {
-        children = data?.data?.map((data: TCart) => (<ProductCard {...data} key={data._id} />))
+        children = latestProducts.map((data: TOrder) => (<ProductCard {...data} key={data._id} />))
     }
+
+    useEffect(() => {
+        if (data) {
+            disPatch(setLatestProduct(data.data.data))
+        }
+    }, [data])
 
     return (
         <div className="mt-16">

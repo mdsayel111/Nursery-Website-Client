@@ -14,5 +14,16 @@ export type TProduct = {
 // create TCart type
 export type TCart = {
   _id: string,
-  quantity: number
+  quantity: number,
+  price: number
+}
+
+// create TCart type
+export type TOrder = {
+  name: string
+  email: string,
+  address: string;
+  phone: string;
+  cart: TCart[];
+  totalPrice: number
 }

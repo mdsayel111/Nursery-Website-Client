@@ -1,21 +1,3 @@
-// form prop types
-type TForm = {
-    title: string;
-    type: "update" | "create"
-}
-
-// react-hook-form types
-export type TFormValue = {
-    title: string;
-    description: string;
-    category: string
-    price: string;
-    quantity: string;
-    img: any;
-    imgList: any
-    rating: number
-}
-
 import { Rating } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -23,57 +5,30 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { IoGiftSharp } from 'react-icons/io5';
 import { primary, secondary } from '../../../constants/color';
 import FileInput from '../file-input/FileInput';
 import TextInput from '../text-input/TextInput';
-import { uploadMultipleImg, uploadSingleImg } from '../../../lib/imgBB';
-import { useAddProductMutation } from '../../../lib/redux/apis/products-api';
-import toast from 'react-hot-toast';
+import { FaNfcDirectional } from 'react-icons/fa6';
+import SelectBox from '../select-box/SelectBox';
+import { category } from '../../../constants/filter-arr';
+
+// form prop types
+type TForm = {
+    title: string;
+    type: "update" | "create"
+    handleSubmit: React.FormEventHandler;
+    isLoading: boolean
+}
 
 
-export default function ProductForm({ title, type }: TForm) {
+export default function ProductForm({ title, type, isLoading, handleSubmit }: TForm) {
     const [value, setValue] = React.useState<number | null>(2);
 
-    const [addproduct] = useAddProductMutation()
-
-    // form event handler
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        try {
-            event.preventDefault();
-            const data = new FormData(event.currentTarget);
-
-            // upload img to imgBB
-            const imgUrl = await uploadSingleImg(data.get("img") as File)
-            const imgList = await uploadMultipleImg(data.getAll("imgList") as File[])
-            // create product obj for creat product
-            const product = {
-                title: data.get("title"),
-                // category: "fruit",
-                description: data.get("description"),
-                imgUrl,
-                imgList,
-                quantity: Number(data.get('quantity')),
-                price: Number(data.get('price')),
-                rating: Number(data.get('rating')),
-            }
-
-            // create product
-            const res = await addproduct(product);
-
-            // show a toast
-            if (res.data) {
-                toast.success(res.data.message)
-            } else {
-                toast.error((res.error as any).data.message)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    };
+    // create isOptional variable for optional feild
+    const isOptional = type && type === "update" ? false : true
 
 
     return (
@@ -81,7 +36,7 @@ export default function ProductForm({ title, type }: TForm) {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
+                    paddingBottom: 4,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -96,20 +51,20 @@ export default function ProductForm({ title, type }: TForm) {
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <TextInput name='title' type='text' required fullWidth label='Title' id='title' />
+                            <TextInput name='title' type='text' required={isOptional} fullWidth label='Title' id='title' />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextInput name='title' type='text' required fullWidth label='Title' id='title' />
+                            <SelectBox data={category} title='Category' name='category' />
                         </Grid>
                         <Grid item xs={12} sm={6} className='flex justify-between gap-4 !flex-col lg:flex-row min-w-full'>
                             <FileInput multiple={false} name='img' title='Upload Image' />
                             <FileInput multiple={true} name='imgList' title='Upload Image List' />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextInput name='description' type='text' required fullWidth label='Description' id='description' />
+                            <TextInput name='description' type='text' required={isOptional} fullWidth label='Description' id='description' />
                         </Grid>
                         <Grid className='flex gap-2 flex-col md:flex-row' item xs={12}>
-                            <TextInput fullWidth id='quantity' label='Quantity' name='quantity' required type='number' />
+                            <TextInput fullWidth id='quantity' label='Quantity' name='quantity' required={isOptional} type='number' />
                             <TextInput fullWidth id='price' label='Price' name='price' required type='number' />
                         </Grid>
                     </Grid>
@@ -135,7 +90,10 @@ export default function ProductForm({ title, type }: TForm) {
                             }
                         }}
                     >
-                        Add Product
+                        {
+                            isLoading ? <FaNfcDirectional className='text-xl animate-spin text-white' /> : title
+                        }
+
                     </Button>
                 </Box>
             </Box>

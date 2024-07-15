@@ -4,16 +4,41 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
-import { TCart } from '../../../types';
+import { useAppDispatch, useAppSelector } from '../../../lib/redux/hooks';
+import { addToCart, selectCart } from '../../../lib/redux/slices/cart-slice';
+import { TProduct } from '../../../types';
+import Button from '../Button/Button';
 import HalfRating from '../rating/Rating';
+import toast from 'react-hot-toast';
 
-export default function ProductCard({ title, description, imgUrl, category, price, rating, quantity, _id }: TCart) {
+export default function ProductCard({ title, description, imgUrl, price, rating, quantity, _id }: TProduct) {
+  const dispatch = useAppDispatch()
+  const carts = useAppSelector(selectCart)
+
+  // handle add to cart
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault()
+
+    // get single cart from carts
+    const singleCart = carts.find(item => item._id === _id)
+    // if cart quantity + 1 > product quantity
+    if (singleCart && singleCart.quantity + 1 > quantity) {
+
+      return toast.error(`You can't add to cart more then ${quantity}!`)
+
+    }
+    // add to cart 
+    dispatch(addToCart({ _id, quantity: 1, price }))
+    return toast.success("Product added to cart!")
+
+
+  }
   return (
     <NavLink to={`/products/${_id}`}>
       <Card sx={{ maxWidth: 345 }} className='cursor-pointer'>
         <div>
           <CardMedia
-            sx={{ height: 120 }}
+            sx={{ minHeight: 200, maxHeight: 200 }}
             image={imgUrl}
             title="green iguana"
           />
@@ -22,7 +47,7 @@ export default function ProductCard({ title, description, imgUrl, category, pric
               {title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {description}
+              {description.length > 50 ? description.slice(0, 51) + '... see more' : description}
             </Typography>
           </CardContent>
           <div className='flex justify-between items-center p-4'>
@@ -34,7 +59,7 @@ export default function ProductCard({ title, description, imgUrl, category, pric
           </div>
         </div>
         <CardActions>
-          <button className='py-2 px-4 font-bold bg-primary hover:bg-secondary mx-auto mt-4 w-full text-white'>Add To Cart</button>
+          <Button onClick={handleAddToCart} className='w-full rounded-none'>Add To Cart</Button>
         </CardActions>
       </Card>
     </NavLink>

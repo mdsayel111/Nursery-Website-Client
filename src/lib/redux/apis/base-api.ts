@@ -6,6 +6,7 @@ import config from '../../../config'
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: fetchBaseQuery({ baseUrl: config.serverUrl }),
+    tagTypes: ["products", "cartProducts"],
     endpoints: () => ({})
 })
 

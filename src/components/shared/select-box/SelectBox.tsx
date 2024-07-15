@@ -15,12 +15,13 @@ type TValue = {
 // select box prop type
 type TSelectBoxProps = {
     id?: string;
+    name?: string;
     data: TValue[];
     title: string;
     setSelectValue?: any;
 }
 
-export default function SelectBox({ id, data, title, setSelectValue }: TSelectBoxProps) {
+export default function SelectBox({ id, data, name,  title, setSelectValue }: TSelectBoxProps) {
     const [value, setValue] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -59,6 +60,7 @@ export default function SelectBox({ id, data, title, setSelectValue }: TSelectBo
                 <InputLabel
                     id={id}>{title}</InputLabel>
                 <Select
+                    name={name}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}

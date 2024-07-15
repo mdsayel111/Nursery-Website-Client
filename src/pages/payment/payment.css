@@ -1,0 +1,25 @@
+/* custom ratio css */
+.custom-radio {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+}
+
+.custom-radio:checked {
+    background-color: white; /* Change this to your desired color */
+    border-color: var(--primary);
+}
+
+.custom-radio:checked::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    margin: 3px;
+}

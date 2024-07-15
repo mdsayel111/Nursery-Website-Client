@@ -6,6 +6,8 @@ import cartReducer from './slices/cart-slice';
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import latestProductsReducer from './slices/latest-product';
+import orderReducer from './slices/order-slice';
 
 // persist config
 const persistConfig = {
@@ -21,6 +23,10 @@ export const store = configureStore({
     produts: productsReducel,
 
     cart: cartPersistedReducer,
+
+    latestProducts: latestProductsReducer,
+
+    order: orderReducer,
 
     // add base api reduces
     [baseApi.reducerPath]: baseApi.reducer

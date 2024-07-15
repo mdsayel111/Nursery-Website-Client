@@ -8,16 +8,19 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import queryString from 'query-string';
 import * as React from 'react';
 import { RiMenu2Fill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
+import { useGetSearchProductsQuery } from '../../lib/redux/apis/products-api';
 import Logo from '../logo/Logo';
-import SelectBox from '../shared/select-box/SelectBox';
-import "./navbar.css";
 import SearchIcon from '../shared/searchbar/SearchIcon';
 import Searchbar from '../shared/searchbar/Searchbar';
 import SearchedItems from '../shared/searchbar/SearchedItems';
-import { category } from '../../constants/filter-arr';
+import "./navbar.css";
+import SelectBox from '../shared/select-box/SelectBox';
+import { category, sort } from '../../constants/filter-arr';
+import { MdCancel } from 'react-icons/md';
 
 const pages = [
     { name: "Home", path: "/" },
@@ -36,6 +39,13 @@ function Navbar() {
 
     // filter state
     const [searchObj, setSearchObj] = React.useState<Record<string, string>>({})
+
+    // create query string for search product based on searchObj
+    const queryStr = queryString.stringify(searchObj)
+
+    // get product by searchObj
+    const { data, isLoading } = useGetSearchProductsQuery(queryStr)
+    console.log(data)
 
     // useRef for smaller device searchbar
     const [isSearchBarOpen, setIsSearchBarOpen] = React.useState(false)
@@ -170,19 +180,32 @@ function Navbar() {
                                 onClose={handleSmallerDeviceSearchBar}
                                 sx={{ overflow: "initial" }}
                             >
-                                {/* search filter, sort options */}
-                                {/* search bar */}
-                                <Searchbar display={{ xs: "block", lg: "hiddden" }} handleSearchDiv={handleOpenUserMenu} setSearch={setSearchStr} />
-                                {/* <SelectBox id='filter' title='Filter' data={category} setSelectValue={setFilter} />
-                                <SelectBox id='sort' data={{ title: "Sort", values: ["fruit"] }} setSelectValue={setSort} /> */}
+                                <div>
+                                    <div className='w-fit ml-auto mb-8'>
+                                        <button onClick={handleSmallerDeviceSearchBar} className='bg-red-600 text-white  p-2  rounded-full'><MdCancel /></button>
+                                    </div>
+                                    <div className='flex flex-col md:flex-row gap-2 w-[100vw] justify-between'>
 
-                                {/* searched items display div */}
-                                <SearchedItems anchorElUser={anchorElUser} items={["products"]} onClick={handleCloseUserMenu} className={`${anchorElUser ? "block" : "hidden"} w-full`} />
+                                        {/* search filter, sort options */}
+                                        {/* search bar */}
+                                        <Searchbar display={{ xs: "block", lg: "hiddden", flexGrow: "1" }} handleSearchDiv={handleOpenUserMenu} setSearch={setSearchStr} />
+
+                                        {/* filter box */}
+                                        <SelectBox id='filter' title='Filter' data={category} setSelectValue={setFilter} />
+
+                                        {/* sort box */}
+                                        <SelectBox id='sort' title='Sort' data={sort} setSelectValue={setSort} />
+                                    </div>
+
+                                    {/* searched items display div */}
+                                    <SearchedItems handleClose={handleSmallerDeviceSearchBar} anchorElUser={anchorElUser} data={data?.data?.data} onClick={handleCloseUserMenu} className={`w-full`} />
+                                </div>
+
                             </Drawer>
                         </div>
 
                         {/* searched items display div for larger device */}
-                        <SearchedItems onClick={handleCloseUserMenu} items={["products"]} anchorElUser={anchorElUser} className={`${anchorElUser ? "md:block hidden" : "hidden"}`} />
+                        {/* <SearchedItems onClick={handleCloseUserMenu} items={["products"]} anchorElUser={anchorElUser} className={`${anchorElUser ? "md:block hidden" : "hidden"}`} /> */}
                     </Box>
                 </Toolbar>
             </Container>

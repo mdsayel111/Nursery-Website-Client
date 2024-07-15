@@ -1,7 +1,6 @@
 import { TextField } from '@mui/material';
 import { primary } from '../../../constants/color';
 import "./text-input.css"
-import { Controller } from 'react-hook-form';
 
 // create text input prop type
 type TTextInput = {

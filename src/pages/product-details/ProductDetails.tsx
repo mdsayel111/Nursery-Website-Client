@@ -3,10 +3,11 @@ import { FaMoneyBillWave, FaTruck } from "react-icons/fa6";
 import { IoArrowUndoSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import Loader from "../../components/shared/loader/Loader";
+import QuantityManage from "../../components/shared/quantity-mange/QuantityManage";
 import HalfRating from "../../components/shared/rating/Rating";
 import Title from "../../components/shared/title/Title";
 import { useGetSingleProductQuery } from "../../lib/redux/apis/products-api";
-import { TCart } from "../../types";
+import { TProduct } from "../../types";
 import "./product-details.css";
 
 const ProductDetails = () => {
@@ -17,6 +18,7 @@ const ProductDetails = () => {
 
     // State to manage image URLs
     const [currentImg, setCurrentImg] = useState<string | undefined>(undefined);
+
     const [newImgUrls, setNewImgUrls] = useState<string[]>([]);
 
     // order quantity
@@ -42,6 +44,7 @@ const ProductDetails = () => {
             const urls = [imgUrl, ...imgList];
             setNewImgUrls(urls);
             setCurrentImg(urls[0]);
+            console.log(urls)
         }
     }, [data]);
 
@@ -50,9 +53,7 @@ const ProductDetails = () => {
         return <div><Loader /></div>;
     }
 
-    const { title, category, description, price, quantity, rating } = data?.data as TCart;
-
-    console.log(quantity)
+    const { title, category, description, price, quantity, rating } = data?.data as TProduct;
 
     return (
         <div className="mt-16">
@@ -60,17 +61,18 @@ const ProductDetails = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="grid grid-cols-1 gap-8">
                     <div>
-                        <img src={currentImg} alt="" className="bg-red-600 w-full h-80" ></img>
+                        <img src={currentImg} alt="" className="bg-red-600 w-full h-80 rounded-lg" ></img>
                     </div>
                     <div className="flex w-fit mx-auto gap-4">
                         {newImgUrls.filter(img => img !== currentImg).map(img => (
-                            <img key={img} src={img} className="bg-green-400 w-16 h-16" onClick={() => setCurrentImg(img)} />
+                            <img key={img} src={img} className="rounded-lg bg-green-400 w-16 h-16" onClick={() => setCurrentImg(img)} />
                         ))}
                     </div>
                 </div>
                 <div className="border-[1px] border-gray-300 p-6 space-y-4">
                     <h2 className="text-3xl text-gray-500 font-light ">{title}</h2>
                     <p className="text-gray-400 text-xl">{description}</p>
+                    <p className="text-gray-400 text-xl">category : {category}</p>
                     <HalfRating value={rating} />
                     <div className="flex gap-8 items-center">
                         <p className="text-6xl font-bold text-primary">${price}</p>
@@ -82,9 +84,7 @@ const ProductDetails = () => {
                         <div className="flex gap-8 items-center">
                             <p className="font-semibold text-gray-400 text-lg">Qty</p>
                             <div className="flex items-center gap-4">
-                                <button onClick={handleDecremantOrderQuantity} className="text-4xl hover:text-primary">-</button>
-                                <input readOnly value={orderQuantity} type="number" maxLength={quantity} max={quantity} className="border-primary border-2 outline-1 outline-primary box-border w-16 h-8 pl-[20px]" />
-                                <button onClick={handleIncremantOrderQuantity} className="text-3xl hover:text-primary">+</button>
+                                <QuantityManage handleDecremantOrderQuantity={handleDecremantOrderQuantity} handleIncremantOrderQuantity={handleIncremantOrderQuantity} orderQuantity={orderQuantity} productQuantity={quantity} />
                             </div>
                         </div>
                     </div>
