@@ -23,13 +23,16 @@ const TextInput = ({ name, required, maxLength, id, fullWidth, label, type }: TT
             id={id}
             label={label}
             type={type}
-            inputProps={{ maxLength: maxLength && maxLength }}
+            inputProps={{ maxLength: maxLength }}
             sx={{
                 '& .MuiInputBase-input': {
-                    main: primary.main,
+                    color: primary.main, // Assuming you want to apply primary.main color to input text
                 },
                 '& .MuiInputLabel-root': {
-                    main: primary.main,
+                    color: 'var(--primary)', // Use CSS variable for primary color
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                    color: 'var(--primary)', // Use CSS variable for primary color when focused
                 },
                 '& .MuiOutlinedInput-root': {
                     '& fieldset': {

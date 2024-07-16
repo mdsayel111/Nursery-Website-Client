@@ -4,6 +4,7 @@ import { uploadMultipleImg, uploadSingleImg } from "../../lib/imgBB";
 import { useAddProductMutation } from "../../lib/redux/apis/products-api";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { handleDebounce } from "../../utils/handle-debounce";
 
 
 const AddProduct = () => {
@@ -11,10 +12,9 @@ const AddProduct = () => {
     const [addproduct, res] = useAddProductMutation()
 
     // form event handler
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = handleDebounce(async (event: React.FormEvent) => {
         try {
-            event.preventDefault();
-            const data = new FormData(event.currentTarget);
+            const data = new FormData(event.target as HTMLFormElement);
 
             // upload img to imgBB
             const imgUrl = await uploadSingleImg(data.get("img") as File)
@@ -31,13 +31,14 @@ const AddProduct = () => {
                 price: Number(data.get('price')),
                 rating: Number(data.get('rating')),
             }
-            
+
             // create product
             const res = await addproduct(product);
 
             // show a toast
             if (res.data) {
                 toast.success(res.data.message)
+                // event.target.reset()
             } else {
                 toast.error((res.error as any).data.message)
             }
@@ -48,7 +49,7 @@ const AddProduct = () => {
                 toast.error("something went wrong!")
             }
         }
-    };
+    });
 
     // handle before reload
     const handleBeforeUnload = (event: any) => {

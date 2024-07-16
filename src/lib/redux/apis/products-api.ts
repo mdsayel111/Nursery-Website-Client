@@ -11,7 +11,10 @@ const productApi = baseApi.injectEndpoints({
         getProductsByIdsArr: builder.query({ query: (idsArr: string[]) => ({ url: "/products/products-by-ids", method: "POST", body: idsArr }), providesTags: ["cartProducts"] }),
 
         getSearchProducts: builder.query({
-            query: (query: string) => ({ url: `/products?${query}`, method: "GET" }),
+            query: (query: string) => {
+                console.log(query)
+                return { url: `/products?${query}`, method: "GET" }
+            },
             providesTags: ["products"]
         }),
 
@@ -28,7 +31,7 @@ const productApi = baseApi.injectEndpoints({
         deleteProduct: builder.mutation({ query: (id: string) => ({ url: `/products/${id}`, method: "DELETE" }), invalidatesTags: ["products"] }),
 
         // lestest products api
-        latestProducts: builder.query({ query: () => ({ url: "/products?sort=createAt&limit=8", method: "GET" }), providesTags: ["products"] })
+        latestProducts: builder.query({ query: () => ({ url: "/products?sort=-createdAt&limit=8", method: "GET" }), providesTags: ["products"] })
     })
 })
 

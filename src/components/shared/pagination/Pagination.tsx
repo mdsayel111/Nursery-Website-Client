@@ -1,6 +1,7 @@
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import "./pagination.css"
+import { primary } from '../../../constants/color';
 
 export default function BasicPagination({ totalData, setPage }: { totalData: number, setPage: any }) {
     // find total page
@@ -16,7 +17,19 @@ export default function BasicPagination({ totalData, setPage }: { totalData: num
 
     return (
         <Stack spacing={2}>
-            <Pagination onChange={handlePageChange} count={totalPage} size='large' />
+            <Pagination sx={{
+                '& .MuiPaginationItem-root': {
+                    // Default styles for pagination items
+                },
+                '& .Mui-selected': {
+                    backgroundColor: `${primary.main} !important`, // Customize the active button background color
+                    color: "white", // Customize the active button text color (optional)
+                },
+                '& .MuiPaginationItem-page:hover': {
+                    backgroundColor: primary.main,
+                    color: "white" // Customize hover state for pagination items
+                },
+            }} onChange={handlePageChange} count={totalPage} size='large' />
         </Stack>
     );
 }

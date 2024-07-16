@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import * as React from 'react';
 import "./select-box.css"
+import { primary } from '../../../constants/color';
 
 // value type for select elements
 type TValue = {
@@ -21,7 +22,7 @@ type TSelectBoxProps = {
     setSelectValue?: any;
 }
 
-export default function SelectBox({ id, data, name,  title, setSelectValue }: TSelectBoxProps) {
+export default function SelectBox({ id, data, name, title, setSelectValue }: TSelectBoxProps) {
     const [value, setValue] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -37,22 +38,22 @@ export default function SelectBox({ id, data, name,  title, setSelectValue }: TS
                 sx={{
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: '#8EC136',
+                            borderColor: primary.main,
                         },
                         '&:hover fieldset': {
-                            borderColor: '#8EC136',
+                            borderColor: primary.main,
                         },
                         '&.Mui-focused fieldset': {
-                            borderColor: '#8EC136',
+                            borderColor: primary.main,
                         },
                         '& .MuiInputBase-input': {
-                            color: '#8EC136',
+                            color: primary.main,
                         },
                     },
                     '& .MuiInputLabel-root': {
-                        color: '#8EC136',
+                        color: primary.main,
                         '&.Mui-focused': {
-                            color: '#8EC136',
+                            color: primary.main,
                         },
                     },
                 }}

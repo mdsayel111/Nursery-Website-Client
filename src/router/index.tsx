@@ -2,15 +2,14 @@ import {
     createBrowserRouter,
 } from "react-router-dom";
 import App from "../App";
-import Home from "../pages/home/Home";
-import Products from "../pages/products/Products";
-import ProductDetails from "../pages/product-details/ProductDetails";
-import Cart from "../pages/cart/Cart";
-import ManageProducts from "../pages/manage-products/ManageProducts";
 import AddProduct from "../pages/add-product/AddProduct";
-import UpdateProduct from "../pages/update-product/UpdateProduct";
-import Payment from "../pages/payment/Payment";
+import Cart from "../pages/cart/Cart";
 import Error from "../pages/eoor/Error";
+import Home from "../pages/home/Home";
+import ManageProducts from "../pages/manage-products/ManageProducts";
+import Payment from "../pages/payment/Payment";
+import ProductDetails from "../pages/product-details/ProductDetails";
+import Products from "../pages/products/Products";
 
 const router = createBrowserRouter([
     {
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
             {
                 path: "/add-product",
                 element: <AddProduct />
-            },
-            {
-                path: "/update-product/:id",
-                element: <UpdateProduct />
             },
             {
                 path: "/payment",

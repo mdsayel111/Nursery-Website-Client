@@ -38,7 +38,6 @@ export default function ProductForm({ title, type, isLoading, handleSubmit }: TF
 
     // handle page reload
     React.useEffect(() => {
-        console.log("upda")
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         return () => {

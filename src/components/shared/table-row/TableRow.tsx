@@ -46,12 +46,11 @@ const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
     // form event handler
     const handleSubmit = handleDebounce(async (event: React.FormEvent<HTMLFormElement>) => {
         try {
-            event.preventDefault();
-            const data = new FormData(event.currentTarget);
+            console.log(event.target)
+            const data = new FormData(event.target as HTMLFormElement);
 
             const imgFileName = (data.get("img") as File).name
             const imgListArr = (data.getAll("imgList") as File[])
-            console.log(imgListArr)
 
             // upload img to imgBB
             const imgUrl = imgFileName && await uploadSingleImg(data.get("img") as File)
@@ -108,6 +107,7 @@ const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
             // close modal
             handleClose()
         } catch (err) {
+            console.log(err)
             if (err instanceof AxiosError && err.response?.data?.error?.code === 310) {
                 toast.error("Img file is not valid! Please input valid file!")
             } else {
@@ -115,14 +115,14 @@ const BasicTableRow = ({ data: singleData }: { data: TProduct }) => {
             }
         }
     });
-    
+
     return (
         <TableRow
             key={singleData._id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         >
             <TableCell component="th" scope="row">
-                <img src={singleData.imgUrl} alt="" />
+                <img className='lg:w-52 lg:h-52 w-32 h-32' src={singleData.imgUrl} alt="" />
             </TableCell>
             <TableCell align="left">{singleData.title}</TableCell>
             <TableCell align="left">{singleData.category}</TableCell>

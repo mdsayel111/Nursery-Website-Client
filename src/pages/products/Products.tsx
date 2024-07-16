@@ -25,10 +25,9 @@ const Products = () => {
         page: 0
     })
 
-    console.log(filterObj)
+    const queryStr =  queryString.stringify(filterObj)
 
-    const queryStr = queryString.stringify(filterObj)
-
+    
     // fetching data
     const { data, isLoading } = useGetSearchProductsQuery(queryStr)
 
