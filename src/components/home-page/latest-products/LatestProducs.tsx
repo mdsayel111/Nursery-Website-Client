@@ -16,7 +16,7 @@ const LatestProducts = () => {
 
     useEffect(() => {
         if (data) {
-            disPatch(setLatestProduct(data.data.data))
+            disPatch(setLatestProduct(data?.data?.data))
         }
     }, [data])
 
@@ -32,7 +32,7 @@ const LatestProducts = () => {
         <div className="mt-16">
             <Title name="Latest Products" />
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8 ">
-                {latestProducts.map((data: TProduct) => (<ProductCard {...data} key={data._id} />))}
+                {latestProducts?.map((data: TProduct) => (<ProductCard {...data} key={data._id} />))}
             </div>
         </div>
     );

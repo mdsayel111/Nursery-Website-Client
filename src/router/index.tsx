@@ -10,11 +10,13 @@ import ManageProducts from "../pages/manage-products/ManageProducts";
 import AddProduct from "../pages/add-product/AddProduct";
 import UpdateProduct from "../pages/update-product/UpdateProduct";
 import Payment from "../pages/payment/Payment";
+import Error from "../pages/eoor/Error";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+        errorElement: <Error />,
         children: [
             {
                 index: true,
