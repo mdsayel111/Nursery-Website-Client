@@ -4,6 +4,21 @@ This is a simple tree selling website. User CRUD Product. User can buy tree from
 ## Live link: 
 https://nursery-website-client.vercel.app/
 
+## Running command
+
+To run project locally, run the following command
+
+```bash
+  npm run dev
+```
+
+To build project locally, run the following command
+
+```bash
+  npm run build
+```
+
+
 
 ## Features
 
